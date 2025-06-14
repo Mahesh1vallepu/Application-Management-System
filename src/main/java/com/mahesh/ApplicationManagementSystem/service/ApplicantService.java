@@ -2,7 +2,8 @@ package com.mahesh.ApplicationManagementSystem.service;
 
 import com.mahesh.ApplicationManagementSystem.Entity.Applicant;
 import com.mahesh.ApplicationManagementSystem.repository.ApplicantPagingAndSortingRepository;
-import com.mahesh.ApplicationManagementSystem.repository.CrudRepository;
+import com.mahesh.ApplicationManagementSystem.repository.ApplicationCrudRepository;
+import com.mahesh.ApplicationManagementSystem.repository.ApplicationJpaRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
@@ -14,16 +15,24 @@ import java.util.List;
 public class ApplicantService {
 
     @Autowired
-    private CrudRepository crudRepository;
+    private ApplicationCrudRepository crudRepository;
 
     @Autowired
     private ApplicantPagingAndSortingRepository applicantPagingAndSortingRepository;
 
+    @Autowired
+    private ApplicationJpaRepository applicationJpaRepository;
+
     public List<Applicant> getAllApplicants(){
-        Iterable<Applicant>all =  crudRepository.findAll();
-        List<Applicant>applicantList = new ArrayList<>();
-        all.forEach(applicantList::add);
-        return applicantList;
+        return crudRepository.findAll();
+    }
+
+    public List<Applicant>getByStatus(String status){
+        return applicationJpaRepository.findByStatus(status);
+    }
+
+    public List<Applicant>getApplicationByName(String name){
+        return applicationJpaRepository.findApplicationByPartialName(name);
     }
 
     public Applicant saveApplicant(Applicant applicant){

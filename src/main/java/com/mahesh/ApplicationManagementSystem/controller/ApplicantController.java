@@ -29,4 +29,13 @@ public class ApplicantController {
         return applicantService.getApplicationWithPagination(page,size);
     }
 
+    @GetMapping("/getByStatus")
+    public List<Applicant>getByStatus(@RequestParam String status){
+        return applicantService.getByStatus(status);
+    }
+
+    @GetMapping("/getByName")
+    public  List<Applicant>getApplicationByName(@RequestParam String name){
+        return applicantService.getApplicationByName(name);
+    }
 }
